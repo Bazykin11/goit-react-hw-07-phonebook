@@ -1,41 +1,26 @@
 import React from 'react';
 import styled from '@emotion/styled';
-// import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from "react-redux";
-import { setFilter } from "../redux/filterSlice"
-import { getFilter } from "../redux/selectors";
 
 
 
-export const Filter = () => {
-      const filter = useSelector(getFilter);
-      const dispatch = useDispatch();
-
-      const onSetFilter = ({ target }) => {
-        dispatch(setFilter(target.value));
-      };
-  
+export const Filter = ({ value, onChangeFilter }) => {
   return (
     <Label>
       Find contacts by name
       <Input
         type="text"
-        onChange={onSetFilter}
+        onChange={onChangeFilter}
         name="filter"
         id="filter"
-        value={filter}
+        value={value}
       />
     </Label>
   );
-}
+};
 
 export default Filter;
 
-// Filter.propTypes = {
-//   onChange: PropTypes.func.isRequired,
-// };
 
-/////////////////////////////// STYLE /////////////////////////
 
 const Label = styled.label`
   display: block;

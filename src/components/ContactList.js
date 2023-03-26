@@ -1,19 +1,7 @@
 import styled from '@emotion/styled';
-// import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from "react-redux";
-import { getVisibleFilter } from "../redux/selectors";
-import { removeContact } from "../redux/contactSlice";
-// import toast from "react-hot-toast";
-
-export const ContactList = ({ DeleteContact }) => {
-  const dispatch = useDispatch();
-  const contacts = useSelector(getVisibleFilter);
-
-  const onRemoveContacts = (payload) => {
-    dispatch(removeContact(payload));
-  };
 
 
+ const ContactList = ({ contacts, deleteContact }) => {
   return (
     <ContactListStyle>
       {contacts.map(({ id, name, number }) => (
@@ -21,7 +9,7 @@ export const ContactList = ({ DeleteContact }) => {
           <p>
             {name} : {number}
           </p>
-          <Button type="button" onClick={() => onRemoveContacts(id)}>
+          <Button type="button" onClick={() => deleteContact(id)}>
             Delete
           </Button>
         </ContactItem>
@@ -30,18 +18,9 @@ export const ContactList = ({ DeleteContact }) => {
   );
 };
 
-// ContactList.propTypes = {
-//   visibleFilter: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       id: PropTypes.string.isRequired,
-//       name: PropTypes.string.isRequired,
-//       number: PropTypes.string.isRequired,
-//     }).isRequired
-//   ),
-//   onDeleteContact: PropTypes.func,
-// };
 
-/////////////////////////////// STYLE /////////////////////////
+
+export default ContactList
 
 const Button = styled.button`
   background: transparent;

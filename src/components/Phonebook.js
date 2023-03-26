@@ -2,36 +2,18 @@ import styled from '@emotion/styled'
 import { useState } from "react";
 import { nanoid } from 'nanoid';
 
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { addContact } from "../redux/contactSlice";
-import { getVisibleFilter } from "../redux/selectors";
-// import PropTypes from 'prop-types';
 
-export default function Phonebook () {
+export default function Phonebook ({onSubmit}) {
     const initialState = {
-      name: "",
-      number: "",
+      name: '',
+      number: '',
     };
-  const contacts = useSelector(getVisibleFilter);
-  const dispatch = useDispatch();
 
   const [state, setState] = useState({ ...initialState });
   const { name, number } = state;
 
   const nameInputId = nanoid();
   const numberInputId = nanoid();
-
-  const onAddContacts = (payload) => {
-    const existingContact = contacts.find(
-      (el) => el.name.toLocaleLowerCase() === payload.name.toLocaleLowerCase()
-    );
-    if (existingContact) {
-      alert(`${payload.name} is already in your contacts`);
-      return;
-    }
-    dispatch(addContact(payload));
-  };
 
   const handleChange = ({ target }) => {
     const { name, value } = target;
@@ -43,7 +25,7 @@ export default function Phonebook () {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onAddContacts({ ...state });
+    onSubmit({ ...state });
     setState({ ...initialState });
   };
 
@@ -86,13 +68,8 @@ export default function Phonebook () {
 };
 
 
-// Phonebook.propTypes = {
-//     onSubmit: PropTypes.func.isRequired,
-// }
 
 
-
-/////////////////////////////// STYLE /////////////////////////
 
 const Form = styled.form`
   border: 1px solid;
