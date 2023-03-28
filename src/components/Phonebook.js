@@ -2,8 +2,27 @@ import styled from '@emotion/styled'
 import { useState } from "react";
 import { nanoid } from 'nanoid';
 
+import { useDispatch, useSelector } from 'react-redux';
 
-export default function Phonebook ({onSubmit}) {
+import { addContact } from 'redux/api';
+import { getVisibleFilter } from 'redux/selectors';
+
+
+export default function Phonebook() {
+    const dispatch = useDispatch();
+  const contacts = useSelector(getVisibleFilter);
+  
+
+    const addNewContact = payload => {
+      const checkContact = contacts.find(
+        el => el.name.toLocaleLowerCase() === payload.name.toLocaleLowerCase()
+      );
+      if (checkContact) {
+        return alert(`${payload.name} is already in the contact list`);
+      }
+      dispatch(addContact(payload));
+    };
+  
     const initialState = {
       name: '',
       number: '',
@@ -25,7 +44,7 @@ export default function Phonebook ({onSubmit}) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onSubmit({ ...state });
+    addNewContact({ ...state });
     setState({ ...initialState });
   };
 

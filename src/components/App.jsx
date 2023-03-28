@@ -3,45 +3,26 @@ import Phonebook from './Phonebook';
 import ContactList from './ContactList';
 import Filter from './Filter';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 
-import { addContact, deleteContact, fecthContacts } from 'redux/api';
-import { getVisibleFilter } from 'redux/selectors';
-import { setFilter } from 'redux/filterSlice';
+import { fecthContacts } from 'redux/api';
+
+
 
 export function App() {
   const dispatch = useDispatch();
-  const contacts = useSelector(getVisibleFilter);
 
   useEffect(() => {
     dispatch(fecthContacts());
   }, [dispatch]);
 
-  const addNewContact = payload => {
-    const checkContact = contacts.find(
-      el => el.name.toLocaleLowerCase() === payload.name.toLocaleLowerCase()
-    );
-    if (checkContact) {
-      return alert(`${payload.name} is already in the contact list`);
-    }
-    dispatch(addContact(payload));
-  };
-
-  const onRemoveContacts = payload => {
-    dispatch(deleteContact(payload));
-  };
-
-  const onSetFilter = ({ target }) => {
-    dispatch(setFilter(target.value));
-  };
-
   return (
     <Container>
-      <Phonebook onSubmit={addNewContact} />
+      <Phonebook />
       <h2>Contacts </h2>
-      <Filter onChangeFilter={onSetFilter} />
-      <ContactList contacts={contacts} deleteContact={onRemoveContacts} />
+      <Filter />
+      <ContactList />
     </Container>
   );
 }

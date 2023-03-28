@@ -1,7 +1,17 @@
+
 import styled from '@emotion/styled';
+import { getVisibleFilter } from 'redux/selectors';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteContact } from 'redux/api';
 
-
- const ContactList = ({ contacts, deleteContact }) => {
+const ContactList = () => {
+  const contacts = useSelector(getVisibleFilter);
+  const dispatch = useDispatch();
+  
+   const onRemoveContacts = payload => {
+     dispatch(deleteContact(payload));
+   };
+  
   return (
     <ContactListStyle>
       {contacts.map(({ id, name, number }) => (
@@ -9,7 +19,7 @@ import styled from '@emotion/styled';
           <p>
             {name} : {number}
           </p>
-          <Button type="button" onClick={() => deleteContact(id)}>
+          <Button type="button" onClick={() => onRemoveContacts(id)}>
             Delete
           </Button>
         </ContactItem>

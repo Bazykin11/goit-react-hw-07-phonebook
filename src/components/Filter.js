@@ -1,26 +1,30 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
+import { useDispatch } from 'react-redux';
+import { setFilter } from 'redux/filterSlice';
 
+export const Filter = () => {
+  const dispatch = useDispatch();
+  const filter = e => {
+    const contactName = e.target.value.toLowerCase();
+    dispatch(setFilter(contactName));
+  };
 
-export const Filter = ({ value, onChangeFilter }) => {
   return (
     <Label>
       Find contacts by name
       <Input
         type="text"
-        onChange={onChangeFilter}
+        onChange={filter}
         name="filter"
         id="filter"
-        value={value}
       />
     </Label>
   );
 };
 
 export default Filter;
-
-
 
 const Label = styled.label`
   display: block;
